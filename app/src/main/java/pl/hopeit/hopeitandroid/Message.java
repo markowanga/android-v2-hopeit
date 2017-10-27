@@ -7,10 +7,15 @@ public class Message {
     private String pictureURL;
     private boolean isFromAdmin;
 
-    public Message(String title, String content, boolean isFromAdmin) {
+    public Message(String title, String content) {
         this.title = title;
         this.content = content;
-        this.isFromAdmin = isFromAdmin;
+    }
+
+    public Message(String title, String content, String pictureURL) {
+        this.title = title;
+        this.content = content;
+        this.pictureURL = pictureURL;
     }
 
     public String getTitle() {

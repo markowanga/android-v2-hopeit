@@ -26,8 +26,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
 
-    private String userId;
-    private String token;
+    static String thumbnailURL;
+    static String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("login result", "success");
-                userId = loginResult.getAccessToken().getUserId();
-                token = loginResult.getAccessToken().getToken();
+                String userId = loginResult.getAccessToken().getUserId();
+                String token = loginResult.getAccessToken().getToken();
 
                 try {
                     login(userId, token);
@@ -68,14 +68,6 @@ public class LoginActivity extends AppCompatActivity {
                 LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends", "email"));
             }
         });
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getToken() {
-        return token;
     }
 
     void login(String userId, String token) throws IOException {

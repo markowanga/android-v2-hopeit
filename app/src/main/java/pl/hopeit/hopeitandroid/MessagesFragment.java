@@ -9,23 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MessagesFragment extends Fragment {
 
-    private static final String ARG_MESSAGES = "messages";
-
-    private OnListFragmentInteractionListener mListener;
-    private List<Message> messages;
+    private List<Message> messages = Arrays.asList(
+            new Message("Title 1", "Lorem ipsum dolor sit amet, Lorem Ipsum Dolor Sit amet", "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/13886935_1802592993361246_6946750506052487703_n.jpg?oh=13733efc8c1fdb7c3da5b4345633dc64&oe=5AA8BDEC"),
+            new Message("Title 2", "Lorem ipsum dolor sit amet, Lorem Ipsum Dolor Sit amet"),
+            new Message("Title 3", "Lorem ipsum dolor sit amet, Lorem Ipsum Dolor Sit amet"),
+            new Message("Title 4", "Lorem ipsum dolor sit amet, Lorem Ipsum Dolor Sit amet")
+    );
 
     public MessagesFragment() {
-    }
-
-    public static MessagesFragment newInstance() {
-        MessagesFragment fragment = new MessagesFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -42,7 +39,7 @@ public class MessagesFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new MessageAdapter(messages, mListener));
+            recyclerView.setAdapter(new MessageAdapter(messages));
             recyclerView.addOnItemTouchListener(
                     new RecyclerItemClickListener(context, new RecyclerItemClickListener.OnItemClickListener() {
                         @Override public void onItemClick(View view, int position) {
@@ -56,29 +53,7 @@ public class MessagesFragment extends Fragment {
         return view;
     }
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     public void showMessages(List<Message> messages) {
         this.messages = messages;
-    }
-
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Message item);
     }
 }
