@@ -67,7 +67,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             super(view);
             mView = view;
             mTitleView = view.findViewById(R.id.msg_title);
-            mSummaryView = view.findViewById(R.id.content);
+            mSummaryView = view.findViewById(R.id.msg_summary);
             mRoundedLetterView = view.findViewById(R.id.msg_round_letter);
         }
 

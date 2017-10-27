@@ -15,10 +15,10 @@
         android:layout_height="48dp"
         android:layout_marginStart="15dp"
         android:paddingLeft="16dp"
-        app:backgroundColorValue="@color/green"
-        app:titleColor="@android:color/white"
-        app:titleSize="35dp"
-        app:titleText="A" />
+        app:rlv_backgroundColorValue="@color/com_facebook_blue"
+        app:rlv_titleColor="@android:color/white"
+        app:rlv_titleSize="35dp"
+        app:rlv_titleText="A" />
 
     <LinearLayout
         android:layout_width="match_parent"
