@@ -11,8 +11,8 @@
 
     <com.github.pavlospt.roundedletterview.RoundedLetterView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/msg_round_letter"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginStart="15dp"
         android:paddingLeft="16dp"
         app:backgroundColorValue="@color/green"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            tools:text="Witamy w naszej aplikacji roll ball jakiś wyjebi" />
+            tools:text="Witamy w naszej aplikacji roll ball jakiś wyjebiś" />
 
     </LinearLayout>
 
