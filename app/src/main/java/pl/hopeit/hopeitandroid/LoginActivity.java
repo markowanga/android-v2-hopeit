@@ -1,7 +1,9 @@
 package pl.hopeit.hopeitandroid;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.facebook.CallbackManager;
@@ -27,30 +29,40 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
         final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+        final LoginManager loginManager = LoginManager.getInstance();
+        loginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 userId = loginResult.getAccessToken().getUserId();
                 token = loginResult.getAccessToken().getToken();
+                Log.d("LOGIN", "Success");
+                Log.d("LOGIN", "User id:" + loginResult.getAccessToken().getUserId());
+                Log.d("LOGIN", "Token: " + loginResult.getAccessToken().getToken());
             }
 
             @Override
             public void onCancel() {
-
+                Log.d("LOGIN", "Cancel");
             }
 
             @Override
             public void onError(FacebookException error) {
-
+                Log.d("LOGIN", "Error");
             }
         });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends", "email"));
+                loginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends", "email"));
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     public String getUserId() {

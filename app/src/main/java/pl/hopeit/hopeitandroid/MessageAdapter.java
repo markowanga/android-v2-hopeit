@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.github.pavlospt.roundedletterview.RoundedLetterView;
 
-import pl.hopeit.hopeitandroid.MessageFragment.OnListFragmentInteractionListener;
+import pl.hopeit.hopeitandroid.MessagesFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 
