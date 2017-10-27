@@ -32,8 +32,10 @@ dependencies {
     compile 'com.github.pavlospt:roundedletterview:1.2' // Rounded Letter View
 
     // lifecycle
-    implementation "android.arch.lifecycle:runtime:1.0.3" // not necessary if you are using lifecycle:extensions or lifecycle:common-java8
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-rc1" // not needed if you are using the DefaultLifecycleObserver from common-java8 artifact.
+    implementation "android.arch.lifecycle:runtime:1.0.3"
+    // not necessary if you are using lifecycle:extensions or lifecycle:common-java8
+    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-rc1"
+    // not needed if you are using the DefaultLifecycleObserver from common-java8 artifact.
 
     // life data view model
     implementation "android.arch.lifecycle:extensions:1.0.0-rc1"
@@ -55,4 +57,7 @@ dependencies {
 //    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.6.0'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
 }
