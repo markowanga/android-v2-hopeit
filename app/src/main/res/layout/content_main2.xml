@@ -8,4 +8,9 @@
     tools:context="pl.hopeit.hopeitandroid.Main2Activity"
     tools:showIn="@layout/app_bar_main2">
 
+    <FrameLayout
+        android:id="@+id/content_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></FrameLayout>
+
 </android.support.constraint.ConstraintLayout>

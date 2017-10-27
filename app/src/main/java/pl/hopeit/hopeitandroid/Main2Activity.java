@@ -3,6 +3,7 @@ package pl.hopeit.hopeitandroid;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -40,6 +41,8 @@ public class Main2Activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        setFragment(new ChallengesToAcceptFragment());
     }
 
     @Override
@@ -80,9 +83,13 @@ public class Main2Activity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.messages) {
+            setFragment(new MessagesFragment());
+        }
+        if (id == R.id.challenge) {
+            setFragment(new ChallengesToAcceptFragment());
+        }
+//        else if (id == R.id.nav_gallery) {
 //
 //        } else if (id == R.id.nav_slideshow) {
 //
@@ -97,5 +104,10 @@ public class Main2Activity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    void setFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment, fragment).commit();
+
     }
 }
