@@ -37,9 +37,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mMessages.get(position);
-     //   holder.mRoundedLetterView.setTitleText(mMessages.get(position).getTitle().substring(0, 1));
+        holder.mRoundedLetterView.setTitleText(mMessages.get(position).getTitle().substring(0, 1));
         holder.mTitleView.setText(mMessages.get(position).getTitle());
-       // holder.mSummaryView.setText(mMessages.get(position).getContent());
+        holder.mSummaryView.setText(mMessages.get(position).getContent());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,22 +58,22 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-       // public final RoundedLetterView mRoundedLetterView;
+        public final RoundedLetterView mRoundedLetterView;
         public final TextView mTitleView;
-       // public final TextView mSummaryView;
+        public final TextView mSummaryView;
         public Message mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mTitleView = view.findViewById(R.id.msg_title);
-            //mSummaryView = view.findViewById(R.id.content);
-            //mRoundedLetterView = view.findViewById(R.id.msg_round_letter);
+            mSummaryView = view.findViewById(R.id.msg_summary);
+            mRoundedLetterView = view.findViewById(R.id.msg_round_letter);
         }
 
-//        @Override
-//        public String toString() {
-//            return super.toString() + " '" + mSummaryView.getText() + "'";
-//        }
+        @Override
+        public String toString() {
+            return super.toString() + " '" + mSummaryView.getText() + "'";
+        }
     }
 }
