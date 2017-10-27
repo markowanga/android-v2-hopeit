@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android-v2-hopeit.iml" filepath="$PROJECT_DIR$/android-v2-hopeit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/hopeItAndroid.iml" filepath="$PROJECT_DIR$/hopeItAndroid.iml" />
     </modules>
   </component>
