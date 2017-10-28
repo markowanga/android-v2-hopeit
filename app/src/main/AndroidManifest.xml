@@ -9,7 +9,6 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:name=".HopeItApplication"
         android:allowBackup="true"
@@ -18,6 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_favorite_black_24dp" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/google_blue" />
+
         <service android:name=".FirebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />

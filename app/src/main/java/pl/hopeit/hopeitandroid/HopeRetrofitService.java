@@ -10,6 +10,7 @@ import pl.hopeit.hopeitandroid.model.LoginResponse;
 import pl.hopeit.hopeitandroid.model.MessagesResponse;
 import pl.hopeit.hopeitandroid.model.PaymentChallengeRestBody;
 import pl.hopeit.hopeitandroid.model.PhotoBody;
+import pl.hopeit.hopeitandroid.model.PaymentResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -47,4 +48,8 @@ public interface HopeRetrofitService {
 
     @POST("/user/{userId}/doChallenge")
     Call<ResponseBody> uploadPhoto(@Path("userId") String userId, @Body PhotoBody body);
+    Call<List<MessagesResponse>> getMessages(@Path("userId") String userId);
+
+    @GET("/user/{userId}/payments")
+    Call<List<PaymentResponse>> getPayments(@Path("userId") String userId);
 }
