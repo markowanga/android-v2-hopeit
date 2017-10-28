@@ -111,6 +111,9 @@ public class Main2Activity extends AppCompatActivity
         if (id == R.id.logout) {
             finish();
         }
+        if (id == R.id.history) {
+            setFragment(new PaymentHistoryFragment());
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
