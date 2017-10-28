@@ -38,7 +38,6 @@ public class MessagesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Call<List<MessagesResponse>> call = HopeItApplication.retrofitService.getMessages(HopeItApplication.fbUserId);
-
         call.enqueue(new Callback<List<MessagesResponse>>() {
             @Override
             public void onResponse(Call<List<MessagesResponse>> call, Response<List<MessagesResponse>> response) {

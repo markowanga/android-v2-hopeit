@@ -1,6 +1,7 @@
 package pl.hopeit.hopeitandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
+
+        final String userId = readUserId();
+        String token = readToken();
+
+        if(!userId.isEmpty())
+            HopeItApplication.fbUserId = userId;
+        if(!token.isEmpty())
+            HopeItApplication.fbToken = token;
+
         final Button loginButton = (Button) findViewById(R.id.login_button);
         progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
@@ -51,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 HopeItApplication.fbUserId = loginResult.getAccessToken().getUserId();
                 HopeItApplication.fbToken = loginResult.getAccessToken().getToken();
 
+                saveUserIdAndToken(HopeItApplication.fbUserId, HopeItApplication.fbToken);
 
                 try {
                     login(HopeItApplication.fbUserId, HopeItApplication.fbToken);
@@ -81,6 +92,24 @@ public class LoginActivity extends AppCompatActivity {
                 LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends", "email"));
             }
         });
+    }
+
+    private void saveUserIdAndToken(String fbUserId, String fbToken) {
+        SharedPreferences prefs = getSharedPreferences(HopeItApplication.PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(HopeItApplication.PREF_USER_ID_KEY, fbUserId);
+        editor.putString(HopeItApplication.PREF_ACCESS_TOKEN_KEY, fbToken);
+        editor.commit();
+    }
+
+    private String readUserId() {
+        SharedPreferences prefs = getSharedPreferences(HopeItApplication.PREF_NAME, MODE_PRIVATE);
+        return prefs.getString(HopeItApplication.PREF_USER_ID_KEY, "");
+    }
+
+    private String readToken() {
+        SharedPreferences prefs = getSharedPreferences(HopeItApplication.PREF_NAME, MODE_PRIVATE);
+        return prefs.getString(HopeItApplication.PREF_ACCESS_TOKEN_KEY, "");
     }
 
     void login(String userId, String token) throws IOException {

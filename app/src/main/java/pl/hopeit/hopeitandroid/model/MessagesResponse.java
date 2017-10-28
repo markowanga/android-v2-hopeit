@@ -12,5 +12,5 @@ public class MessagesResponse {
     public String image_url;
     public String challenge_id;
     public String user_id;
-    public String _v;
+    public String __v;
 }
