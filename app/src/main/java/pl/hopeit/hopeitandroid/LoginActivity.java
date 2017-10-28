@@ -1,6 +1,7 @@
 package pl.hopeit.hopeitandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,10 +11,8 @@ import android.widget.Button;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
@@ -30,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private final static int OPEN_GALLERY_PICTURE = 1003;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 HopeItApplication.fbUserId = loginResult.getAccessToken().getUserId();
                 HopeItApplication.fbToken = loginResult.getAccessToken().getToken();
 
+                saveUserIdAndToken(HopeItApplication.fbUserId, HopeItApplication.fbToken);
 
                 try {
                     login(HopeItApplication.fbUserId, HopeItApplication.fbToken);
@@ -71,6 +70,14 @@ public class LoginActivity extends AppCompatActivity {
                 LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends", "email"));
             }
         });
+    }
+
+    private void saveUserIdAndToken(String fbUserId, String fbToken) {
+        SharedPreferences prefs = getSharedPreferences(HopeItApplication.PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(HopeItApplication.PREF_USER_ID_KEY, fbUserId);
+        editor.putString(HopeItApplication.PREF_ACCESS_TOKEN_KEY, fbToken);
+        editor.commit();
     }
 
     void login(String userId, String token) throws IOException {

@@ -48,6 +48,8 @@ public interface HopeRetrofitService {
 
     @POST("/user/{userId}/doChallenge")
     Call<ResponseBody> uploadPhoto(@Path("userId") String userId, @Body PhotoBody body);
+
+    @GET("/user/{userId}/messages")
     Call<List<MessagesResponse>> getMessages(@Path("userId") String userId);
 
     @GET("/user/{userId}/payments")
