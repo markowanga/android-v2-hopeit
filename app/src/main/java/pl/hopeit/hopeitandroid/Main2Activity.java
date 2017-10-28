@@ -71,6 +71,9 @@ public class Main2Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.messages) {
+            setFragment(new MessagesFragment());
+        }
+        if (id == R.id.friends) {
             setFragment(new UsersChallangesFragment());
         }
         if (id == R.id.actual_challenge) {
