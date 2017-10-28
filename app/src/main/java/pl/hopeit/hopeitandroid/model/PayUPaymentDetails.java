@@ -9,15 +9,13 @@ import java.util.StringTokenizer;
  */
 
 public class PayUPaymentDetails {
-    int totalAmount;
-    String currency;
-    String description;
-    String notifyUrl;
-    int orderId;
+    public int totalAmount;
+    public String currency;
+    public String description;
+    public String notifyUrl;
+    public int orderId;
 
-    String challengeId;
-    String callengeUserId;
-
+    
 
     public int getTotalAmount() {
         return totalAmount;

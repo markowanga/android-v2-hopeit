@@ -1,8 +1,6 @@
 package pl.hopeit.hopeitandroid;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -30,15 +28,6 @@ public class Main2Activity extends AppCompatActivity
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -105,7 +94,10 @@ public class Main2Activity extends AppCompatActivity
         if (id == R.id.messages) {
             setFragment(new MessagesFragment());
         }
-        if (id == R.id.challenge) {
+        if (id == R.id.actual_challenge) {
+            setFragment(new ChallengesAcceptedFragment());
+        }
+        if (id == R.id.challenge_to_accept) {
             setFragment(new ChallengesToAcceptFragment());
         }
         if (id == R.id.logout) {
@@ -113,6 +105,9 @@ public class Main2Activity extends AppCompatActivity
         }
         if (id == R.id.history) {
             setFragment(new PaymentHistoryFragment());
+        }
+        if (id == R.id.payment) {
+            setFragment(new PaymentFragment());
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

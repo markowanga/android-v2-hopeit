@@ -9,7 +9,7 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Aktywne wyzwania" />
         <item
-            android:id="@+id/challenge"
+            android:id="@+id/challenge_to_accept"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Wyzwania" />
         <item

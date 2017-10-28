@@ -16,23 +16,25 @@ import com.squareup.picasso.Picasso;
 
 import okhttp3.ResponseBody;
 import pl.hopeit.hopeitandroid.model.Challenge;
-import pl.hopeit.hopeitandroid.model.LoginBody;
-import pl.hopeit.hopeitandroid.model.LoginResponse;
+import pl.hopeit.hopeitandroid.model.PaymentChallengeRestBody;
+import pl.hopeit.hopeitandroid.payU.PayUPayment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by marcinwatroba on 27.10.2017.
+ * Created by marcinwatroba on 28.10.2017.
  */
 
-public class ChallengeDialogToAccept extends DialogFragment {
+public class ChallengeDialogActual extends DialogFragment {
 
     Challenge challenge;
     private View view;
+    ChallengesAcceptedFragment fragment;
 
-    public static ChallengeDialogToAccept newInstance(Challenge challenge) {
-        ChallengeDialogToAccept frag = new ChallengeDialogToAccept();
+    public static ChallengeDialogActual newInstance(Challenge challenge, ChallengesAcceptedFragment fragment) {
+        ChallengeDialogActual frag = new ChallengeDialogActual();
+        frag.fragment = fragment;
         frag.challenge = challenge;
         return frag;
     }
@@ -45,14 +47,17 @@ public class ChallengeDialogToAccept extends DialogFragment {
         final AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(challenge.title)
                 .setView(view)
-                .setPositiveButton("Akceptuj",
+                .setPositiveButton("wpłać 5zł",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                Log.d("akcepyuje", challenge._id);
+                                Log.d("wpłacam", challenge._id);
+                                PaymentChallengeRestBody body = new PaymentChallengeRestBody();
+                                body.amount = "5";
+                                body.challenge_id = challenge.challenge_id;
+                                body.user_challenge_id = challenge._id;
                                 Call<ResponseBody> call =
                                         HopeItApplication.retrofitService.
-                                                acceptChallenge(HopeItApplication.fbUserId,
-                                                        challenge._id);
+                                                commitPaymentChellange(HopeItApplication.fbUserId, body);
 
                                 call.enqueue(new Callback<ResponseBody>() {
                                     @Override
@@ -65,6 +70,14 @@ public class ChallengeDialogToAccept extends DialogFragment {
                                         Log.d("response", "fail");
                                     }
                                 });
+                            }
+                        }
+                ).setNegativeButton("Wykonaj zadanie",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                HopeItApplication.loadImage = true;
+                                HopeItApplication.loadImageId = challenge._id;
+                                fragment.openChooseFromGallery();
                             }
                         }
                 )

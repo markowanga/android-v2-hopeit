@@ -2,12 +2,16 @@ package pl.hopeit.hopeitandroid;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +19,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,9 +31,12 @@ import pl.hopeit.hopeitandroid.model.Challenge;
 import pl.hopeit.hopeitandroid.model.ChallengesResponse;
 import pl.hopeit.hopeitandroid.model.LoginBody;
 import pl.hopeit.hopeitandroid.model.LoginResponse;
+import pl.hopeit.hopeitandroid.model.PhotoBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -40,9 +49,6 @@ public class ChallengesAcceptedFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,6 +56,12 @@ public class ChallengesAcceptedFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_challenges_accepted, container, false);
 
 
+    }
+
+    @Override
+    public void onResume() {
+        Log.d("res", "RESUME");
+        super.onResume();
     }
 
     @Override
@@ -63,7 +75,7 @@ public class ChallengesAcceptedFragment extends Fragment {
     }
 
     void getChallenges() throws IOException {
-        Call<ChallengesResponse> call = HopeItApplication.retrofitService.getChallenges("2038912249729318");
+        Call<ChallengesResponse> call = HopeItApplication.retrofitService.getChallenges(HopeItApplication.fbUserId);
 
         call.enqueue(new Callback<ChallengesResponse>() {
             @Override
@@ -128,7 +140,7 @@ public class ChallengesAcceptedFragment extends Fragment {
     }
 
     void showDialog(Challenge challenge) {
-        DialogFragment newFragment = ChallengeDialogToAccept.newInstance(challenge);
+        DialogFragment newFragment = ChallengeDialogActual.newInstance(challenge, this);
         newFragment.show(getFragmentManager(), "dialog");
     }
 
@@ -145,6 +157,63 @@ public class ChallengesAcceptedFragment extends Fragment {
             description = (TextView) v.findViewById(R.id.description);
             image = (ImageView) v.findViewById(R.id.image);
         }
+    }
+
+    private final static int OPEN_GALLERY_PICTURE = 1003;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case OPEN_GALLERY_PICTURE: {
+                if (resultCode == RESULT_OK) {
+                    if (data != null && data.getData() != null) {
+                        data.getData(); // uri
+                        Log.d("FOTO", "ZALADOWANO");
+                        try {
+                            loadPhoto(data.getData());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                break;
+            }
+            default:break;
+        }
+    }
+
+    public void openChooseFromGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), OPEN_GALLERY_PICTURE);
+    }
+
+    private void loadPhoto(Uri uri) throws IOException {
+
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos); //bm is the bitmap object
+        byte[] b = baos.toByteArray();
+
+        PhotoBody body = new PhotoBody();
+        body.image = "data:image/jpeg;base64," + Base64.encodeToString(b, Base64.DEFAULT);
+        body.userChallengeId = HopeItApplication.loadImageId;
+
+        Call<ResponseBody> call = HopeItApplication.retrofitService.uploadPhoto(HopeItApplication.fbUserId, body);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("response", "ok loaded");
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("response", "fail");
+            }
+        });
     }
 
 }

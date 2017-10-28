@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
-                Log.d("login result", "error");
+                Log.d("login result", "error " + error.toString());
             }
         });
 
@@ -92,28 +92,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case OPEN_GALLERY_PICTURE: {
-                if (resultCode == RESULT_OK) {
-                    if (data != null && data.getData() != null) {
-                        data.getData(); // uri
-//                        Timber.d("dataString:" + data.getDataString() + "\n data:" + data.getData().toString());
-//                        chooserImageCallback.setPicture(data.getData());
-                    }
-                }
-                break;
-            }
-            default:break;
-        }
-
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void openChooseFromGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select File"), OPEN_GALLERY_PICTURE);
     }
 }

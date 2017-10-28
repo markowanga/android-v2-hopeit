@@ -1,12 +1,17 @@
 package pl.hopeit.hopeitandroid;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +19,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 import pl.hopeit.hopeitandroid.R;
 import pl.hopeit.hopeitandroid.model.Challenge;
 import pl.hopeit.hopeitandroid.model.ChallengesResponse;
+import pl.hopeit.hopeitandroid.model.LoginBody;
+import pl.hopeit.hopeitandroid.model.LoginResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +56,7 @@ public class ChallengesToAcceptFragment extends Fragment {
     }
 
     void getChallenges() throws IOException {
-        Call<ChallengesResponse> call = HopeItApplication.retrofitService.getChallenges("2038912249729318");
+        Call<ChallengesResponse> call = HopeItApplication.retrofitService.getChallenges(HopeItApplication.fbUserId);
 
         call.enqueue(new Callback<ChallengesResponse>() {
             @Override
@@ -110,7 +119,7 @@ public class ChallengesToAcceptFragment extends Fragment {
             final Challenge currentRecord = mRecords.get(position);
             holder.description.setText(currentRecord.description);
             holder.from.setText("Wyzwanie od " + currentRecord.inviter);
-            Picasso.with(getContext()).load(currentRecord.imgUrl).into(holder.image);
+            Picasso.with(getContext()).load(HopeItApplication.SERVICE_ENDPOINT + currentRecord.imgUrl).into(holder.image);
             holder.title.setText(currentRecord.title);
         }
 
@@ -139,5 +148,7 @@ public class ChallengesToAcceptFragment extends Fragment {
             image = (ImageView) v.findViewById(R.id.image);
         }
     }
+
+
 
 }

@@ -19,6 +19,10 @@ public class HopeItApplication extends Application {
     static public LoginResponse loginResponse;
     public static String fbUserId, fbToken;
 
+    // load image
+    public static boolean loadImage = false;
+    public static String loadImageId;
+
     @Override
     public void onCreate() {
         super.onCreate();
