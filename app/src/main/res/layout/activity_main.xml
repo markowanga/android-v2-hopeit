@@ -7,7 +7,7 @@
     android:background="@color/cardview_light_background"
     tools:context="pl.hopeit.hopeitandroid.LoginActivity">
 
-    <com.facebook.login.widget.LoginButton
+    <Button
         android:id="@+id/login_button"
         android:layout_width="320dp"
         android:layout_height="32dp"

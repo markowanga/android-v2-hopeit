@@ -7,7 +7,8 @@ package pl.hopeit.hopeitandroid.model;
 public class Challenge {
     public String title;
     public String description;
-    public String photoUrl;
+    public String imgUrl;
     public String id;
-    public String from;
+    public String inviter;
+    public Boolean done;
 }

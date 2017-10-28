@@ -16,16 +16,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import pl.hopeit.hopeitandroid.R;
 import pl.hopeit.hopeitandroid.model.Challenge;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChallengesToAcceptFragment extends Fragment {
+public class ChallengesAcceptedFragment extends Fragment {
 
 
-    public ChallengesToAcceptFragment() {
+    public ChallengesAcceptedFragment() {
         // Required empty public constructor
     }
 
@@ -34,9 +34,7 @@ public class ChallengesToAcceptFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_challenges_to_accept, container, false);
-
-        // todo request
+        return inflater.inflate(R.layout.fragment_challenges_accepted, container, false);
     }
 
     void showList(final List<Challenge> records) {
@@ -75,8 +73,8 @@ public class ChallengesToAcceptFragment extends Fragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             final Challenge currentRecord = mRecords.get(position);
             holder.description.setText(currentRecord.description);
-            holder.from.setText("Wyzwanie od " + currentRecord.from);
-            Picasso.with(getContext()).load(currentRecord.photoUrl).into(holder.image);
+            holder.from.setText("Wyzwanie od " + currentRecord.inviter);
+            Picasso.with(getContext()).load(currentRecord.imgUrl).into(holder.image);
             holder.title.setText(currentRecord.title);
         }
 

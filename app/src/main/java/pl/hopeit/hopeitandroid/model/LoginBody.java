@@ -8,10 +8,10 @@ import android.util.Log;
 
 public class LoginBody {
     public String userId;
-    public String token;
+    public String accessTokenId;
 
     public LoginBody(String userId, String token) {
         this.userId = userId;
-        this.token = token;
+        this.accessTokenId = token;
     }
 }
