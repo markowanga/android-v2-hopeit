@@ -34,8 +34,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
-        final Button loginButton = (Button) findViewById(R.id.login_button);
 
+        final String userId = readUserId();
+        String token = readToken();
+
+        if(!userId.isEmpty())
+            HopeItApplication.fbUserId = userId;
+        if(!token.isEmpty())
+            HopeItApplication.fbToken = token;
+
+        final Button loginButton = (Button) findViewById(R.id.login_button);
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -78,6 +86,16 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString(HopeItApplication.PREF_USER_ID_KEY, fbUserId);
         editor.putString(HopeItApplication.PREF_ACCESS_TOKEN_KEY, fbToken);
         editor.commit();
+    }
+
+    private String readUserId() {
+        SharedPreferences prefs = getSharedPreferences(HopeItApplication.PREF_NAME, MODE_PRIVATE);
+        return prefs.getString(HopeItApplication.PREF_USER_ID_KEY, "");
+    }
+
+    private String readToken() {
+        SharedPreferences prefs = getSharedPreferences(HopeItApplication.PREF_NAME, MODE_PRIVATE);
+        return prefs.getString(HopeItApplication.PREF_ACCESS_TOKEN_KEY, "");
     }
 
     void login(String userId, String token) throws IOException {

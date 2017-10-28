@@ -11,5 +11,6 @@ public class Challenge {
     public String challenge_id;
     public String _id; // najdokładniesze
     public String inviter;
-    public Boolean done;
+    public String image;
+    public Boolean status;
 }

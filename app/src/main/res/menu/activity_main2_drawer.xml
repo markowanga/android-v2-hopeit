@@ -6,41 +6,45 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/actual_challenge"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_assignment_turned_in_black_24dp"
             android:title="Aktywne wyzwania" />
         <item
             android:id="@+id/challenge_to_accept"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_assignment_black_24dp"
             android:title="Wyzwania" />
         <item
-            android:id="@+id/history"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Historia" />
-        <item
             android:id="@+id/messages"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_message_black_24dp"
             android:title="Wiadomości" />
 
         <item
+            android:id="@+id/history"
+            android:icon="@drawable/ic_history_black_24dp"
+            android:title="Historia wpłat" />
+        <item
             android:id="@+id/payment"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_payment_black_24dp"
             android:title="Wpłać" />
         <item
             android:id="@+id/logout"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_lock_power_off"
             android:title="Wyloguj" />
     </group>
 
-    <item android:title="Communicate">
+    <item
+        android:title="Communicate"
+        android:visible="false">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Share"
+                android:visible="true" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="Send"
+                android:visible="true" />
         </menu>
     </item>
 
