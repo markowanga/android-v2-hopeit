@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import pl.hopeit.hopeitandroid.HopeItApplication;
 import pl.hopeit.hopeitandroid.R;
 import pl.hopeit.hopeitandroid.model.Message;
 
@@ -46,11 +48,13 @@ public class MessageDialogFragment extends DialogFragment {
         TextView titleView = view.findViewById(R.id.msg_dialog_title);
         TextView contentView = view.findViewById(R.id.msg_dialog_content);
 
-        Picasso.with(getActivity())
-                .load(args.getString(ARG_PICTURE_URL))
-                .resize(60, 60)
-                .centerCrop()
-                .into(imageView);
+        if (args.getString(ARG_PICTURE_URL) != null) {
+            Picasso.with(getActivity())
+                    .load(HopeItApplication.SERVICE_ENDPOINT + args.getString(ARG_PICTURE_URL))
+                    .resize(60, 60)
+                    .centerCrop()
+                    .into(imageView);
+        }
 
         titleView.setText(args.getString(ARG_TITLE));
         contentView.setText(args.getString(ARG_CONTENT));

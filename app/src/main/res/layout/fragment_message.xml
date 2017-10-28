@@ -15,7 +15,7 @@
         android:layout_marginStart="16dp"
         app:rlv_backgroundColorValue="@color/com_facebook_blue"
         app:rlv_titleColor="@android:color/white"
-        app:rlv_titleSize="35dp"
+        app:rlv_titleSize="24dp"
         app:rlv_titleText="A" />
 
     <LinearLayout
