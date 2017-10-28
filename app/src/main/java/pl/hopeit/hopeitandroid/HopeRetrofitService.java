@@ -7,6 +7,7 @@ import pl.hopeit.hopeitandroid.model.FbUser;
 import pl.hopeit.hopeitandroid.model.LoginBody;
 import pl.hopeit.hopeitandroid.model.LoginResponse;
 import pl.hopeit.hopeitandroid.model.MessagesResponse;
+import pl.hopeit.hopeitandroid.model.PaymentResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -30,5 +31,8 @@ public interface HopeRetrofitService {
     Call<List<FbUser>> getFbUsers(@Path("userId") String userId);
 
     @GET("/user/{userId}/messages")
-    Call<List<MessagesResponse>> getMessages();
+    Call<List<MessagesResponse>> getMessages(@Path("userId") String userId);
+
+    @GET("/user/{userId}/payments")
+    Call<List<PaymentResponse>> getPayments(@Path("userId") String userId);
 }
