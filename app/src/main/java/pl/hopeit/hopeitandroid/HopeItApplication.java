@@ -2,6 +2,7 @@ package pl.hopeit.hopeitandroid;
 
 import android.app.Application;
 
+import pl.hopeit.hopeitandroid.model.Challenge;
 import pl.hopeit.hopeitandroid.model.LoginResponse;
 import pl.hopeit.hopeitandroid.model.User;
 import retrofit2.Retrofit;
@@ -18,6 +19,7 @@ public class HopeItApplication extends Application {
     static public HopeRetrofitService retrofitService;
     static public LoginResponse loginResponse;
     public static String fbUserId, fbToken;
+    public static Challenge challenge;
 
     // load image
     public static boolean loadImage = false;

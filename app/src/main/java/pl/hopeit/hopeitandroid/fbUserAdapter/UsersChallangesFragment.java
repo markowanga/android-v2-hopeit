@@ -1,22 +1,36 @@
 package pl.hopeit.hopeitandroid.fbUserAdapter;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.io.IOException;
 import java.util.List;
 
 import pl.hopeit.hopeitandroid.ChallengesAcceptedFragment;
+import pl.hopeit.hopeitandroid.HopeItApplication;
+import pl.hopeit.hopeitandroid.Main2Activity;
 import pl.hopeit.hopeitandroid.R;
 import pl.hopeit.hopeitandroid.RecyclerItemClickListener;
+import pl.hopeit.hopeitandroid.UserChallengesActivity;
 import pl.hopeit.hopeitandroid.model.Challenge;
 import pl.hopeit.hopeitandroid.model.FbUser;
+import pl.hopeit.hopeitandroid.model.FbUsersResponse;
+import pl.hopeit.hopeitandroid.model.LoginBody;
+import pl.hopeit.hopeitandroid.model.LoginResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +55,27 @@ public class UsersChallangesFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // request
-        // TODO: 28.10.2017
+        try {
+            getData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void getData() throws IOException {
+        Call<FbUsersResponse> call = HopeItApplication.retrofitService.getFbUsers(HopeItApplication.fbUserId);
+
+        call.enqueue(new Callback<FbUsersResponse>() {
+            @Override
+            public void onResponse(Call<FbUsersResponse> call, Response<FbUsersResponse> response) {
+                showList(response.body().fbFriends);
+            }
+
+            @Override
+            public void onFailure(Call<FbUsersResponse> call, Throwable t) {
+                Log.d("response", "fail");
+            }
+        });
     }
 
     void showList(final List<FbUser> records) {
@@ -56,7 +90,8 @@ public class UsersChallangesFragment extends Fragment {
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        // todo open new activity
+                        HopeItApplication.loadImageId = records.get(position).id;
+                        startActivity(new Intent(getContext(), UserChallengesActivity.class));
                     }
                 })
         );

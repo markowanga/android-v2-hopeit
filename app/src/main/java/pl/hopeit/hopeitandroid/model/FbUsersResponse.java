@@ -7,5 +7,5 @@ import java.util.List;
  */
 
 public class FbUsersResponse {
-    List<FbUser> fbFriends;
+    public List<FbUser> fbFriends;
 }

@@ -63,11 +63,15 @@ public class ChallengesToAcceptFragment extends Fragment {
             public void onResponse(Call<ChallengesResponse> call, Response<ChallengesResponse> response) {
                 Log.d("response", "OKKKK " + response.body().notAcceptedChallenges.size());
                 showList(response.body().notAcceptedChallenges);
+                getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
             }
 
             @Override
             public void onFailure(Call<ChallengesResponse> call, Throwable t) {
                 Log.d("response", "fail");
+                getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
             }
         });
     }
@@ -88,7 +92,6 @@ public class ChallengesToAcceptFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(layoutManager);
         ChallengesToAcceptAdapter adapter = new ChallengesToAcceptAdapter(records);
-//        progressBar.setVisibility(View.GONE);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -148,7 +151,5 @@ public class ChallengesToAcceptFragment extends Fragment {
             image = (ImageView) v.findViewById(R.id.image);
         }
     }
-
-
 
 }

@@ -12,10 +12,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.payu.android.sdk.payment.model.Currency;
 import com.squareup.picasso.Picasso;
 
 import okhttp3.ResponseBody;
 import pl.hopeit.hopeitandroid.model.Challenge;
+import pl.hopeit.hopeitandroid.model.PayUPaymentDetails;
 import pl.hopeit.hopeitandroid.model.PaymentChallengeRestBody;
 import pl.hopeit.hopeitandroid.payU.PayUPayment;
 import retrofit2.Call;
@@ -44,58 +46,87 @@ public class ChallengeDialogActual extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         view = inflater.inflate(R.layout.challenge_dialog_to_accept, null);
 
-        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle(challenge.title)
-                .setView(view)
-                .setPositiveButton("wpłać 5zł",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Log.d("wpłacam", challenge._id);
-                                PaymentChallengeRestBody body = new PaymentChallengeRestBody();
-                                body.amount = "5";
-                                body.challenge_id = challenge.challenge_id;
-                                body.user_challenge_id = challenge._id;
-                                Call<ResponseBody> call =
-                                        HopeItApplication.retrofitService.
-                                                commitPaymentChellange(HopeItApplication.fbUserId, body);
-
-                                call.enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        Log.d("response", "accepted");
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                        Log.d("response", "fail");
-                                    }
-                                });
+        if (challenge.image==null || challenge.image.isEmpty()) {
+            final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .setTitle(challenge.title)
+                    .setView(view)
+                    .setPositiveButton("wpłać 5zł",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    Log.d("wpłacam", challenge._id);
+                                    HopeItApplication.loadImageId = challenge._id;
+                                    HopeItApplication.challenge = challenge;
+                                    fragment.payUPaymentDetails = new PayUPaymentDetails();
+                                    fragment.payUPaymentDetails.orderId = 543;
+                                    fragment.payUPaymentDetails.totalAmount = 500;
+                                    fragment.payUPaymentDetails.notifyUrl="frewsd";
+                                    fragment.payUPaymentDetails.description="vgjhnm";
+                                    fragment.payUPaymentDetails.currency = Currency.PLN.toString();
+                                    fragment.onStartPayment(fragment.payUPaymentDetails);
+                                }
                             }
-                        }
-                ).setNegativeButton("Wykonaj zadanie",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                HopeItApplication.loadImage = true;
-                                HopeItApplication.loadImageId = challenge._id;
-                                fragment.openChooseFromGallery();
+                    ).setNegativeButton("Wykonaj zadanie",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    HopeItApplication.loadImage = true;
+                                    HopeItApplication.loadImageId = challenge._id;
+                                    HopeItApplication.challenge = challenge;
+                                    fragment.openChooseFromGallery();
+                                }
                             }
-                        }
-                )
-                .create();
+                    )
+                    .create();
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                TextView description = view.findViewById(R.id.description_text_view);
-                TextView from = view.findViewById(R.id.from_text_view);
-                ImageView picture = view.findViewById(R.id.challenge_image_view);
-                description.setText(challenge.description);
-                from.setText("Zadaie od: " + challenge.inviter);
-                Picasso.with(getContext()).load(HopeItApplication.SERVICE_ENDPOINT + challenge.imgUrl).into(picture);
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    TextView description = view.findViewById(R.id.description_text_view);
+                    TextView from = view.findViewById(R.id.from_text_view);
+                    ImageView picture = view.findViewById(R.id.challenge_image_view);
+                    description.setText(challenge.description);
+                    from.setText("Zadaie od: " + challenge.inviter);
+                    Picasso.with(getContext()).load(HopeItApplication.SERVICE_ENDPOINT + challenge.imgUrl).into(picture);
 
-            }
-        });
+                }
+            });
 
-        return dialog;
+            return dialog;
+        }
+        else {
+            final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .setTitle(challenge.title)
+                    .setView(view)
+                    .setPositiveButton("wpłać 5zł",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    Log.d("wpłacam", challenge._id);
+                                    HopeItApplication.loadImageId = challenge._id;
+                                    HopeItApplication.challenge = challenge;
+                                    fragment.payUPaymentDetails = new PayUPaymentDetails();
+                                    fragment.payUPaymentDetails.orderId = 543;
+                                    fragment.payUPaymentDetails.totalAmount = 500;
+                                    fragment.payUPaymentDetails.notifyUrl="frewsd";
+                                    fragment.payUPaymentDetails.description="vgjhnm";
+                                    fragment.payUPaymentDetails.currency = Currency.PLN.toString();
+                                    fragment.onStartPayment(fragment.payUPaymentDetails);
+                                }
+                            }
+                    ).create();
+
+            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    TextView description = view.findViewById(R.id.description_text_view);
+                    TextView from = view.findViewById(R.id.from_text_view);
+                    ImageView picture = view.findViewById(R.id.challenge_image_view);
+                    description.setText(challenge.description);
+                    from.setText("Zadaie od: " + challenge.inviter);
+                    Picasso.with(getContext()).load(HopeItApplication.SERVICE_ENDPOINT + challenge.image).into(picture);
+
+                }
+            });
+
+            return dialog;
+        }
     }
 }

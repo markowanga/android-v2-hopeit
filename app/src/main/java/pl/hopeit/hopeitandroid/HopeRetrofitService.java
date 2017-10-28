@@ -2,6 +2,7 @@ package pl.hopeit.hopeitandroid;
 
 import java.util.List;
 import okhttp3.ResponseBody;
+import pl.hopeit.hopeitandroid.model.Challenge;
 import pl.hopeit.hopeitandroid.model.ChallengesResponse;
 import pl.hopeit.hopeitandroid.model.FbUser;
 import pl.hopeit.hopeitandroid.model.FbUsersResponse;
@@ -32,7 +33,7 @@ public interface HopeRetrofitService {
     Call<ChallengesResponse> getChallenges(@Path("userId") String userId);
 
     @GET("/users/{userId}")
-    Call<List<FbUser>> getFbUsers(@Path("userId") String userId);
+    Call<FbUsersResponse> getFbUsers(@Path("userId") String userId);
 
     @GET("/user/{userId}/messages")
     Call<List<MessagesResponse>> getMessages();
@@ -47,7 +48,9 @@ public interface HopeRetrofitService {
     Call<FbUsersResponse> getFriends(@Path("userId") String userId);
 
     @POST("/user/{userId}/doChallenge")
-    Call<ResponseBody> uploadPhoto(@Path("userId") String userId, @Body PhotoBody body);
+    Call<Challenge> uploadPhoto(@Path("userId") String userId, @Body PhotoBody body);
+
+    @GET("/user/{userId}/messages")
     Call<List<MessagesResponse>> getMessages(@Path("userId") String userId);
 
     @GET("/user/{userId}/payments")

@@ -54,7 +54,7 @@ public class PayuPaymentExecutor implements OnChoosePaymentMethodChooserResult {
     }
 
     public void onPaymentProcessEventMainThread(PaymentFailedEvent paymentFailedEvent) {
-        Log.d("PayU result", "negative");
+        Log.d("PayU result", "negative" + paymentFailedEvent.toString());
 
         mResultListener.paymentResult(false);
     }

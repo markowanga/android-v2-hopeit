@@ -35,4 +35,18 @@
         app:srcCompat="@drawable/hopeit_logo"
         tools:layout_editor_absoluteY="16dp" />
 
+    <FrameLayout
+        android:id="@+id/progress_bar"
+        android:background="#80000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:paddingTop="120dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
 </android.support.constraint.ConstraintLayout>

@@ -31,7 +31,12 @@ import pl.hopeit.hopeitandroid.model.Challenge;
 import pl.hopeit.hopeitandroid.model.ChallengesResponse;
 import pl.hopeit.hopeitandroid.model.LoginBody;
 import pl.hopeit.hopeitandroid.model.LoginResponse;
+import pl.hopeit.hopeitandroid.model.PayUPaymentDetails;
+import pl.hopeit.hopeitandroid.model.PaymentChallengeRestBody;
 import pl.hopeit.hopeitandroid.model.PhotoBody;
+import pl.hopeit.hopeitandroid.payU.PayuOrderBulider;
+import pl.hopeit.hopeitandroid.payU.PayuPaymentExecutor;
+import pl.hopeit.hopeitandroid.payU.PayuPaymentResult;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,8 +47,9 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChallengesAcceptedFragment extends Fragment {
+public class ChallengesAcceptedFragment extends Fragment implements PayuPaymentResult {
 
+    public PayUPaymentDetails payUPaymentDetails;
 
     public ChallengesAcceptedFragment() {
         // Required empty public constructor
@@ -82,11 +88,14 @@ public class ChallengesAcceptedFragment extends Fragment {
             public void onResponse(Call<ChallengesResponse> call, Response<ChallengesResponse> response) {
                 Log.d("response", "OKKKK " + response.body().acceptedChallenges.size());
                 showList(response.body().acceptedChallenges);
+                getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
             }
 
             @Override
             public void onFailure(Call<ChallengesResponse> call, Throwable t) {
                 Log.d("response", "fail");
+                getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
             }
         });
     }
@@ -200,20 +209,57 @@ public class ChallengesAcceptedFragment extends Fragment {
         body.image = "data:image/jpeg;base64," + Base64.encodeToString(b, Base64.DEFAULT);
         body.userChallengeId = HopeItApplication.loadImageId;
 
-        Call<ResponseBody> call = HopeItApplication.retrofitService.uploadPhoto(HopeItApplication.fbUserId, body);
+        Call<Challenge> call = HopeItApplication.retrofitService.uploadPhoto(HopeItApplication.fbUserId, body);
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<Challenge>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<Challenge> call, Response<Challenge> response) {
                 Log.d("response", "ok loaded");
-
+                HopeItApplication.challenge.image = response.body().image;
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<Challenge> call, Throwable t) {
                 Log.d("response", "fail");
             }
         });
     }
 
+    // payment
+    private PayuPaymentExecutor mPayuPaymentExecutor;
+    int orderId;
+
+    public void onStartPayment(PayUPaymentDetails payUPaymentDetails) {
+        orderId = payUPaymentDetails.getOrderId();
+        mPayuPaymentExecutor = new PayuPaymentExecutor(getActivity(), getChildFragmentManager(),
+                PayuOrderBulider.getOrder(payUPaymentDetails), this);
+        mPayuPaymentExecutor.register();
+        mPayuPaymentExecutor.startPayment();
+    }
+
+    @Override
+    public void paymentResult(boolean isCorrect) {
+        if (true) {
+            Log.d("pay", "is correst");
+            PaymentChallengeRestBody body = new PaymentChallengeRestBody();
+            body.amount = String.valueOf(payUPaymentDetails.getTotalAmount()/100);
+            body.challenge_id = HopeItApplication.challenge.challenge_id;
+            body.user_challenge_id = HopeItApplication.challenge._id;
+            Call<ResponseBody> call =
+                    HopeItApplication.retrofitService.
+                            commitPaymentChellange(HopeItApplication.fbUserId, body);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Log.d("response", "accepted");
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.d("response", "fail");
+                }
+            });
+        }
+    }
 }

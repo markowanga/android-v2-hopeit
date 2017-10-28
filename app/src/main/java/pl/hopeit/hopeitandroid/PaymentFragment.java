@@ -9,13 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.payu.android.sdk.payment.model.Currency;
 
+import okhttp3.ResponseBody;
 import pl.hopeit.hopeitandroid.model.PayUPaymentDetails;
+import pl.hopeit.hopeitandroid.model.PaymentChallengeRestBody;
 import pl.hopeit.hopeitandroid.payU.PayuOrderBulider;
 import pl.hopeit.hopeitandroid.payU.PayuPaymentExecutor;
 import pl.hopeit.hopeitandroid.payU.PayuPaymentResult;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -25,7 +31,9 @@ public class PaymentFragment extends Fragment implements PayuPaymentResult {
 
     private PayuPaymentExecutor mPayuPaymentExecutor;
     private int orderId;
+    PayUPaymentDetails payUPaymentDetails;
     View view;
+    String cost;
 
     public PaymentFragment() {
         // Required empty public constructor
@@ -36,14 +44,15 @@ public class PaymentFragment extends Fragment implements PayuPaymentResult {
         super.onViewCreated(view, savedInstanceState);
 
         Button startPayment = view.findViewById(R.id.btnPay);
+        final EditText editText = view.findViewById(R.id.edValue);
         startPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PayUPaymentDetails payUPaymentDetails = new PayUPaymentDetails();
+                payUPaymentDetails = new PayUPaymentDetails();
                 payUPaymentDetails.currency = Currency.PLN.toString();
                 payUPaymentDetails.description= "kurwa";
                 payUPaymentDetails.notifyUrl="KK";
-                payUPaymentDetails.totalAmount=10000;
+                payUPaymentDetails.totalAmount=Integer.parseInt(editText.getText().toString()) * 100;
                 payUPaymentDetails.orderId=234;
 
                 onStartPayment(payUPaymentDetails);
@@ -59,16 +68,6 @@ public class PaymentFragment extends Fragment implements PayuPaymentResult {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
     public void onStartPayment(PayUPaymentDetails payUPaymentDetails) {
         orderId = payUPaymentDetails.getOrderId();
         mPayuPaymentExecutor = new PayuPaymentExecutor(getActivity(), getChildFragmentManager(),
@@ -79,7 +78,27 @@ public class PaymentFragment extends Fragment implements PayuPaymentResult {
 
     @Override
     public void paymentResult(boolean isCorrect) {
-        if (isCorrect) Log.d("pay", "is correst");
-        else  Log.d("pay", "not correst");
+        if (true) {
+            Log.d("pay", "is correst");
+            PaymentChallengeRestBody body = new PaymentChallengeRestBody();
+            body.amount = String.valueOf(payUPaymentDetails.getTotalAmount()/100);
+            body.challenge_id = null;
+            body.user_challenge_id = null;
+            Call<ResponseBody> call =
+                    HopeItApplication.retrofitService.
+                            commitPaymentChellange(HopeItApplication.fbUserId, body);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Log.d("response", "accepted");
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.d("response", "fail");
+                }
+            });
+        }
     }
 }

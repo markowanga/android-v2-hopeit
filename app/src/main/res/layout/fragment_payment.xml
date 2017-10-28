@@ -18,6 +18,7 @@
         android:id="@+id/edValue"
         android:inputType="numberDecimal"
         android:layout_width="100dp"
+        android:gravity="center"
         android:layout_height="wrap_content" />
 
     <Button

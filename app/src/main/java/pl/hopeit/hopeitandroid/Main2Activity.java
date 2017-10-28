@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import pl.hopeit.hopeitandroid.fbUserAdapter.UsersChallangesFragment;
 import pl.hopeit.hopeitandroid.messages.MessagesFragment;
 import pl.hopeit.hopeitandroid.model.LoginResponse;
 
@@ -92,7 +93,7 @@ public class Main2Activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.messages) {
-            setFragment(new MessagesFragment());
+            setFragment(new UsersChallangesFragment());
         }
         if (id == R.id.actual_challenge) {
             setFragment(new ChallengesAcceptedFragment());
