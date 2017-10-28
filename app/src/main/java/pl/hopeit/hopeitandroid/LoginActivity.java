@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import pl.hopeit.hopeitandroid.model.LoginBody;
+import pl.hopeit.hopeitandroid.model.LoginResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,9 +29,6 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private final static int OPEN_GALLERY_PICTURE = 1003;
 
-
-    private String userId;
-    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +40,9 @@ public class LoginActivity extends AppCompatActivity {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                userId = loginResult.getAccessToken().getUserId();
-                token = loginResult.getAccessToken().getToken();
-
-                Log.d("login result", "success " + userId + " " + token);
+                Log.d("login result", "success");
+                String userId = loginResult.getAccessToken().getUserId();
+                String token = loginResult.getAccessToken().getToken();
 
                 try {
                     login(userId, token);
@@ -74,27 +71,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
     void login(String userId, String token) throws IOException {
-        Call<String> call = HopeItApplication.retrofitService.getUser(new LoginBody(userId, token));
+        Call<LoginResponse> call = HopeItApplication.retrofitService.getUser(new LoginBody(userId, token));
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.d("response", "OKK");
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                HopeItApplication.loginResponse = response.body();
                 startActivity(new Intent(getApplicationContext(), Main2Activity.class));
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.d("response", "fail" + t.getMessage() + " " + call.request().url().toString());
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.d("response", "fail");
             }
         });
     }

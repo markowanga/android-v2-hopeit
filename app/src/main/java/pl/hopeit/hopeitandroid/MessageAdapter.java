@@ -8,23 +8,14 @@ import android.widget.TextView;
 
 import com.github.pavlospt.roundedletterview.RoundedLetterView;
 
-import pl.hopeit.hopeitandroid.MessagesFragment.OnListFragmentInteractionListener;
-
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link Message} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
     private final List<Message> mMessages;
-    private final OnListFragmentInteractionListener mListener;
 
-    public MessageAdapter(List<Message> messages, OnListFragmentInteractionListener listener) {
+    public MessageAdapter(List<Message> messages) {
         this.mMessages = messages;
-        mListener = listener;
     }
 
     @Override
@@ -44,9 +35,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
             }
         });
     }
