@@ -2,6 +2,7 @@ package pl.hopeit.hopeitandroid;
 
 import android.app.Application;
 
+import pl.hopeit.hopeitandroid.model.LoginResponse;
 import pl.hopeit.hopeitandroid.model.User;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -14,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HopeItApplication extends Application {
 
     static public HopeRetrofitService retrofitService;
-    static public User user;
+    static public LoginResponse loginResponse;
 
     @Override
     public void onCreate() {

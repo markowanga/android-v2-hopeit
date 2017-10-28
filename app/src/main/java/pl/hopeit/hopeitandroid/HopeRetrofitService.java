@@ -1,6 +1,7 @@
 package pl.hopeit.hopeitandroid;
 
 import pl.hopeit.hopeitandroid.model.LoginBody;
+import pl.hopeit.hopeitandroid.model.LoginResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -10,8 +11,8 @@ import retrofit2.http.POST;
  */
 
 public interface HopeRetrofitService {
-    String SERVICE_ENDPOINT = "http://10.99.130.104:4000";
+    String SERVICE_ENDPOINT = "http://10.99.130.101:4000";
 
-    @POST("/user")
-    Call<String> getUser(@Body LoginBody body);
+    @POST("/user/login")
+    Call<LoginResponse> getUser(@Body LoginBody body);
 }

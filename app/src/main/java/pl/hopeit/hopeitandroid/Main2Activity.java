@@ -13,6 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import pl.hopeit.hopeitandroid.model.LoginResponse;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,6 +47,18 @@ public class Main2Activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View header=navigationView.getHeaderView(0);
+        TextView nameView  = (TextView)header.findViewById(R.id.nameView);
+        LoginResponse loginResponse = HopeItApplication.loginResponse;
+        nameView.setText(loginResponse.getName());
+
+        ImageView thumbnailView = header.findViewById(R.id.thumbnailView);
+        Picasso.with(this)
+                .load(loginResponse.getImgUrl())
+                .resize(200, 200)
+                .centerCrop()
+                .into(thumbnailView);
 
         setFragment(new ChallengesToAcceptFragment());
     }

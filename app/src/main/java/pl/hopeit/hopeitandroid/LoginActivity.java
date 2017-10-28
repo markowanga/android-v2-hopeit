@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import pl.hopeit.hopeitandroid.model.LoginBody;
+import pl.hopeit.hopeitandroid.model.LoginResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,15 +28,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
 
-    static String thumbnailURL;
-    static String name;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
-        final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        final Button loginButton = (Button) findViewById(R.id.login_button);
 
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -71,17 +70,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void login(String userId, String token) throws IOException {
-        Call<String> call = HopeItApplication.retrofitService.getUser(new LoginBody(userId, token));
+        Call<LoginResponse> call = HopeItApplication.retrofitService.getUser(new LoginBody(userId, token));
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.d("response", "OKK");
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                HopeItApplication.loginResponse = response.body();
                 startActivity(new Intent(getApplicationContext(), Main2Activity.class));
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Log.d("response", "fail");
             }
         });
