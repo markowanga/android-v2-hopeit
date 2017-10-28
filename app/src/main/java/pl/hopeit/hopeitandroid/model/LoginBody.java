@@ -9,9 +9,11 @@ import android.util.Log;
 public class LoginBody {
     public String userId;
     public String accessTokenId;
+    public String firebaseToken;
 
-    public LoginBody(String userId, String token) {
+    public LoginBody(String userId, String token, String firebaseToken) {
         this.userId = userId;
         this.accessTokenId = token;
+        this.firebaseToken = firebaseToken;
     }
 }

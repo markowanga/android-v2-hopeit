@@ -14,6 +14,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -73,7 +74,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void login(String userId, String token) throws IOException {
-        Call<LoginResponse> call = HopeItApplication.retrofitService.getUser(new LoginBody(userId, token));
+        String firebaseToken = FirebaseInstanceId.getInstance().getToken();
+        Call<LoginResponse> call = HopeItApplication.retrofitService.getUser(new LoginBody(userId, token, firebaseToken));
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override

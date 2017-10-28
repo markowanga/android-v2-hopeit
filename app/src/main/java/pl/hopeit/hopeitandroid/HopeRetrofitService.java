@@ -1,12 +1,12 @@
 package pl.hopeit.hopeitandroid;
 
 import java.util.List;
-
 import okhttp3.ResponseBody;
 import pl.hopeit.hopeitandroid.model.ChallengesResponse;
 import pl.hopeit.hopeitandroid.model.FbUser;
 import pl.hopeit.hopeitandroid.model.LoginBody;
 import pl.hopeit.hopeitandroid.model.LoginResponse;
+import pl.hopeit.hopeitandroid.model.MessagesResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -28,4 +28,7 @@ public interface HopeRetrofitService {
 
     @GET("/users/{userId}")
     Call<List<FbUser>> getFbUsers(@Path("userId") String userId);
+
+    @GET("/user/{userId}/messages")
+    Call<List<MessagesResponse>> getMessages();
 }
