@@ -1,4 +1,4 @@
-package pl.hopeit.hopeitandroid;
+package pl.hopeit.hopeitandroid.model;
 
 public class Message {
 

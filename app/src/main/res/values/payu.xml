@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="payu_language">Polish</string> <!-- auto | Polish | English | Czech | German  -->
+    <string name="payu_environment">sandbox</string> <!-- local | production | sandbox -->
+    <string name="payu_token_service_class_full_qualified_name">pl.intenso.reader.payU.MerchantTokenProviderService</string>
+</resources>

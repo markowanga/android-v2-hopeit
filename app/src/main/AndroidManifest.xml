@@ -3,12 +3,12 @@
     package="pl.hopeit.hopeitandroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
 
     <application
         android:name=".HopeItApplication"
@@ -18,7 +18,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,11 +29,13 @@
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <meta-data
@@ -45,7 +46,6 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -58,7 +58,28 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".UserChallengesActivity"></activity>
 
+        <!--payu-->
+        <activity android:name="com.payu.android.sdk.payment.ui.NewCardActivity"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name="com.payu.android.sdk.payment.ui.PaymentMethodListActivity"
+            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity
+            android:name="com.payu.android.sdk.payment.ui.LocalCardCheckActivity"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity android:name="com.payu.android.sdk.payment.ui.LoginActivity" />
+        <activity
+            android:name="com.payu.android.sdk.payment.ui.PaymentActivity"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name="com.payu.android.sdk.payment.ui.AuthorizationActivity"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity android:name="com.payu.android.sdk.payment.ui.StrongAuthorizationActivity" />
+
+        <service
+            android:name="com.payu.android.sdk.payment.service.PaymentEntrypointService"
+            android:exported="false" />
     </application>
 
 </manifest>

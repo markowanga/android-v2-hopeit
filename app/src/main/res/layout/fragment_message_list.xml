@@ -7,5 +7,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
-    tools:context="pl.hopeit.hopeitandroid.MessagesFragment"
+    tools:context="pl.hopeit.hopeitandroid.messages.MessagesFragment"
     tools:listitem="@layout/fragment_message" />

@@ -21,6 +21,7 @@ allprojects {
         jcenter()
 //        maven { url 'https://maven.google.com' }
         mavenCentral()
+        maven { url 'https://raw.github.com/PayU/paytouch-android/mvn-repo/' }
     }
 }
 

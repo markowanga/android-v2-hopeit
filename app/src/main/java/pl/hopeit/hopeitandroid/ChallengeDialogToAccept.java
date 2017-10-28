@@ -59,7 +59,7 @@ public class ChallengeDialogToAccept extends DialogFragment {
                 ImageView picture = view.findViewById(R.id.challenge_image_view);
                 description.setText(challenge.description);
                 from.setText("Zadaie od: " + challenge.inviter);
-                Picasso.with(getContext()).load(challenge.imgUrl).into(picture);
+                Picasso.with(getContext()).load(HopeItApplication.SERVICE_ENDPOINT + challenge.imgUrl).into(picture);
 
             }
         });

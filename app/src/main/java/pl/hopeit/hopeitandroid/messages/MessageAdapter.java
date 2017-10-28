@@ -1,4 +1,4 @@
-package pl.hopeit.hopeitandroid;
+package pl.hopeit.hopeitandroid.messages;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 import com.github.pavlospt.roundedletterview.RoundedLetterView;
 
 import java.util.List;
+
+import pl.hopeit.hopeitandroid.R;
+import pl.hopeit.hopeitandroid.model.Message;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 

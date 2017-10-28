@@ -41,11 +41,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("login result", "success");
-                String userId = loginResult.getAccessToken().getUserId();
-                String token = loginResult.getAccessToken().getToken();
+                HopeItApplication.fbUserId = loginResult.getAccessToken().getUserId();
+                HopeItApplication.fbToken = loginResult.getAccessToken().getToken();
+
 
                 try {
-                    login(userId, token);
+                    login(HopeItApplication.fbUserId, HopeItApplication.fbToken);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -1,4 +1,4 @@
-package pl.hopeit.hopeitandroid;
+package pl.hopeit.hopeitandroid.messages;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import pl.hopeit.hopeitandroid.R;
+import pl.hopeit.hopeitandroid.model.Message;
 
 public class MessageDialogFragment extends DialogFragment {
 

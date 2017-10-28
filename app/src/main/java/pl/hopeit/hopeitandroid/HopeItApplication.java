@@ -14,15 +14,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HopeItApplication extends Application {
 
+    public static String SERVICE_ENDPOINT = "http://10.99.130.101:4000";
     static public HopeRetrofitService retrofitService;
     static public LoginResponse loginResponse;
+    public static String fbUserId, fbToken;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(HopeRetrofitService.SERVICE_ENDPOINT)
+                .baseUrl(SERVICE_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

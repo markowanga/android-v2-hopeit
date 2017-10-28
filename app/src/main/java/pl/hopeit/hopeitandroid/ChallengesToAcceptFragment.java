@@ -2,10 +2,12 @@ package pl.hopeit.hopeitandroid;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.List;
 
 import pl.hopeit.hopeitandroid.R;
 import pl.hopeit.hopeitandroid.model.Challenge;
+import pl.hopeit.hopeitandroid.model.ChallengesResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +44,33 @@ public class ChallengesToAcceptFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_challenges_to_accept, container, false);
 
         // todo request
+    }
+
+    void getChallenges() throws IOException {
+        Call<ChallengesResponse> call = HopeItApplication.retrofitService.getChallenges("2038912249729318");
+
+        call.enqueue(new Callback<ChallengesResponse>() {
+            @Override
+            public void onResponse(Call<ChallengesResponse> call, Response<ChallengesResponse> response) {
+                Log.d("response", "OKKKK " + response.body().notAcceptedChallenges.size());
+                showList(response.body().notAcceptedChallenges);
+            }
+
+            @Override
+            public void onFailure(Call<ChallengesResponse> call, Throwable t) {
+                Log.d("response", "fail");
+            }
+        });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        try {
+            getChallenges();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void showList(final List<Challenge> records) {

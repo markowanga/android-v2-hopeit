@@ -1,15 +1,9 @@
 package pl.hopeit.hopeitandroid;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,12 +18,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import pl.hopeit.hopeitandroid.messages.MessagesFragment;
 import pl.hopeit.hopeitandroid.model.LoginResponse;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,7 +61,7 @@ public class Main2Activity extends AppCompatActivity
                 .centerCrop()
                 .into(thumbnailView);
 
-        setFragment(new ChallengesToAcceptFragment());
+        setFragment(new ChallengesAcceptedFragment());
     }
 
     @Override
@@ -118,17 +108,9 @@ public class Main2Activity extends AppCompatActivity
         if (id == R.id.challenge) {
             setFragment(new ChallengesToAcceptFragment());
         }
-//        else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+        if (id == R.id.logout) {
+            finish();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -1,4 +1,4 @@
-package pl.hopeit.hopeitandroid;
+package pl.hopeit.hopeitandroid.messages;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,9 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import pl.hopeit.hopeitandroid.R;
+import pl.hopeit.hopeitandroid.RecyclerItemClickListener;
+import pl.hopeit.hopeitandroid.model.Message;
 
 public class MessagesFragment extends Fragment {
 
