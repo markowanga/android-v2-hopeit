@@ -75,8 +75,8 @@ public class ChallengesToAcceptFragment extends Fragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             final Challenge currentRecord = mRecords.get(position);
             holder.description.setText(currentRecord.description);
-            holder.from.setText("Wyzwanie od " + currentRecord.from);
-            Picasso.with(getContext()).load(currentRecord.photoUrl).into(holder.image);
+            holder.from.setText("Wyzwanie od " + currentRecord.inviter);
+            Picasso.with(getContext()).load(currentRecord.imgUrl).into(holder.image);
             holder.title.setText(currentRecord.title);
         }
 
