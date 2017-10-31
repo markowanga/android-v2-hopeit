@@ -40,6 +40,9 @@ import retrofit2.Response;
  */
 public class ChallengesToAcceptFragment extends Fragment {
 
+    List<Challenge> challengeList;
+    ChallengesToAcceptAdapter adapter;
+
 
     public ChallengesToAcceptFragment() {
         // Required empty public constructor
@@ -62,6 +65,7 @@ public class ChallengesToAcceptFragment extends Fragment {
             @Override
             public void onResponse(Call<ChallengesResponse> call, Response<ChallengesResponse> response) {
                 Log.d("response", "OKKKK " + response.body().notAcceptedChallenges.size());
+                challengeList = response.body().notAcceptedChallenges;
                 showList(response.body().notAcceptedChallenges);
                 getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
 
@@ -91,7 +95,7 @@ public class ChallengesToAcceptFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(layoutManager);
-        ChallengesToAcceptAdapter adapter = new ChallengesToAcceptAdapter(records);
+        adapter = new ChallengesToAcceptAdapter(records);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -133,7 +137,7 @@ public class ChallengesToAcceptFragment extends Fragment {
     }
 
     void showDialog(Challenge challenge) {
-        DialogFragment newFragment = ChallengeDialogToAccept.newInstance(challenge);
+        DialogFragment newFragment = ChallengeDialogToAccept.newInstance(challenge, this);
         newFragment.show(getFragmentManager(), "dialog");
     }
 
@@ -150,6 +154,12 @@ public class ChallengesToAcceptFragment extends Fragment {
             description = (TextView) v.findViewById(R.id.description);
             image = (ImageView) v.findViewById(R.id.image);
         }
+    }
+
+    public void removeChallenge(Challenge challenge) {
+        int index = challengeList.indexOf(challenge);
+        challengeList.remove(index);
+        adapter.notifyItemRemoved(index);
     }
 
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -87,6 +88,13 @@ public class UserChallengesActivity extends AppCompatActivity {
             holder.from.setText("Wyzwanie od " + currentRecord.inviter);
             Picasso.with(getApplicationContext()).load(HopeItApplication.SERVICE_ENDPOINT + currentRecord.imgUrl).into(holder.image);
             holder.title.setText(currentRecord.title);
+            holder.image.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Toast.makeText(UserChallengesActivity.this, "Wyzwałeś znajomego", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            });
         }
 
         @Override

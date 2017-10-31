@@ -39,8 +39,8 @@ public class Main2Activity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View header=navigationView.getHeaderView(0);
-        TextView nameView  = (TextView)header.findViewById(R.id.nameView);
+        View header = navigationView.getHeaderView(0);
+        TextView nameView = (TextView) header.findViewById(R.id.nameView);
         LoginResponse loginResponse = HopeItApplication.loginResponse;
         nameView.setText(loginResponse.getName());
 
@@ -51,7 +51,15 @@ public class Main2Activity extends AppCompatActivity
                 .centerCrop()
                 .into(thumbnailView);
 
-        setFragment(new ChallengesAcceptedFragment());
+        if (!HopeItApplication.startFromNotification) {
+            setFragment(new ChallengesAcceptedFragment());
+            navigationView.getMenu().getItem(0).setChecked(true);
+        } else {
+            navigationView.getMenu().getItem(1).setChecked(true);
+            setFragment(new ChallengesToAcceptFragment());
+            HopeItApplication.startFromNotification = false;
+        }
+
     }
 
     @Override

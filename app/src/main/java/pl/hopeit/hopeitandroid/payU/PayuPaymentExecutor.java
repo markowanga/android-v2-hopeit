@@ -54,7 +54,7 @@ public class PayuPaymentExecutor implements OnChoosePaymentMethodChooserResult {
     }
 
     public void onPaymentProcessEventMainThread(PaymentFailedEvent paymentFailedEvent) {
-        Log.d("PayU result", "negative" + paymentFailedEvent.toString());
+        Log.d("PayU result", "negative" + paymentFailedEvent.getBusinessError().toString());
 
         mResultListener.paymentResult(false);
     }
@@ -65,10 +65,12 @@ public class PayuPaymentExecutor implements OnChoosePaymentMethodChooserResult {
     }
 
     public void onPaymentProcessEventMainThread(PresentSelectedPaymentMethodEvent event) {
+        Log.d("PayU result", "PresentSelectedPaymentMethodEvent");
         dialog.setPositiveButton(true);
     }
 
     public void onPaymentProcessEventMainThread(AbsentSelectedPaymentMethodEvent event) {
+        Log.d("PayU result", "AbsentSelectedPaymentMethodEvent");
         dialog.setPositiveButton(false);
     }
 

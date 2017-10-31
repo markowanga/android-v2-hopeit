@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.payu.android.sdk.payment.model.Currency;
+
+import java.util.Calendar;
 
 import okhttp3.ResponseBody;
 import pl.hopeit.hopeitandroid.model.PayUPaymentDetails;
@@ -30,10 +33,8 @@ import retrofit2.Response;
 public class PaymentFragment extends Fragment implements PayuPaymentResult {
 
     private PayuPaymentExecutor mPayuPaymentExecutor;
-    private int orderId;
     PayUPaymentDetails payUPaymentDetails;
     View view;
-    String cost;
 
     public PaymentFragment() {
         // Required empty public constructor
@@ -50,10 +51,10 @@ public class PaymentFragment extends Fragment implements PayuPaymentResult {
             public void onClick(View view) {
                 payUPaymentDetails = new PayUPaymentDetails();
                 payUPaymentDetails.currency = Currency.PLN.toString();
-                payUPaymentDetails.description= "kurwa";
-                payUPaymentDetails.notifyUrl="KK";
+                payUPaymentDetails.description= "opis";
+                payUPaymentDetails.notifyUrl="url";
                 payUPaymentDetails.totalAmount=Integer.parseInt(editText.getText().toString()) * 100;
-                payUPaymentDetails.orderId=234;
+                payUPaymentDetails.orderId= (int)Calendar.getInstance().getTime().getTime();
 
                 onStartPayment(payUPaymentDetails);
             }
@@ -69,7 +70,7 @@ public class PaymentFragment extends Fragment implements PayuPaymentResult {
     }
 
     public void onStartPayment(PayUPaymentDetails payUPaymentDetails) {
-        orderId = payUPaymentDetails.getOrderId();
+        int orderId = payUPaymentDetails.getOrderId();
         mPayuPaymentExecutor = new PayuPaymentExecutor(getActivity(), getChildFragmentManager(),
                 PayuOrderBulider.getOrder(payUPaymentDetails), this);
         mPayuPaymentExecutor.register();
@@ -78,7 +79,9 @@ public class PaymentFragment extends Fragment implements PayuPaymentResult {
 
     @Override
     public void paymentResult(boolean isCorrect) {
-        if (true) {
+        mPayuPaymentExecutor.logout();
+        mPayuPaymentExecutor.unregister();
+        if (isCorrect) {
             Log.d("pay", "is correst");
             PaymentChallengeRestBody body = new PaymentChallengeRestBody();
             body.amount = String.valueOf(payUPaymentDetails.getTotalAmount()/100);
@@ -92,6 +95,8 @@ public class PaymentFragment extends Fragment implements PayuPaymentResult {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Log.d("response", "accepted");
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Zapłacono", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -100,5 +105,21 @@ public class PaymentFragment extends Fragment implements PayuPaymentResult {
                 }
             });
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mPayuPaymentExecutor != null)
+            mPayuPaymentExecutor.register();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (mPayuPaymentExecutor != null)
+            mPayuPaymentExecutor.unregister();
     }
 }

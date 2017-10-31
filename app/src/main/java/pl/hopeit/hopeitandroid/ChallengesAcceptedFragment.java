@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.squareup.picasso.Picasso;
@@ -50,6 +51,8 @@ import static android.app.Activity.RESULT_OK;
 public class ChallengesAcceptedFragment extends Fragment implements PayuPaymentResult {
 
     public PayUPaymentDetails payUPaymentDetails;
+    private PayuPaymentExecutor mPayuPaymentExecutor;
+    int orderId;
 
     public ChallengesAcceptedFragment() {
         // Required empty public constructor
@@ -64,11 +67,13 @@ public class ChallengesAcceptedFragment extends Fragment implements PayuPaymentR
 
     }
 
-    @Override
-    public void onResume() {
-        Log.d("res", "RESUME");
-        super.onResume();
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        if (mPayuPaymentExecutor != null)
+//            mPayuPaymentExecutor.register();
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +84,14 @@ public class ChallengesAcceptedFragment extends Fragment implements PayuPaymentR
             e.printStackTrace();
         }
     }
+
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//
+//        if (mPayuPaymentExecutor != null)
+//            mPayuPaymentExecutor.unregister();
+//    }
 
     void getChallenges() throws IOException {
         Call<ChallengesResponse> call = HopeItApplication.retrofitService.getChallenges(HopeItApplication.fbUserId);
@@ -225,11 +238,9 @@ public class ChallengesAcceptedFragment extends Fragment implements PayuPaymentR
         });
     }
 
-    // payment
-    private PayuPaymentExecutor mPayuPaymentExecutor;
-    int orderId;
 
     public void onStartPayment(PayUPaymentDetails payUPaymentDetails) {
+        Log.d("payment", "start payment");
         orderId = payUPaymentDetails.getOrderId();
         mPayuPaymentExecutor = new PayuPaymentExecutor(getActivity(), getChildFragmentManager(),
                 PayuOrderBulider.getOrder(payUPaymentDetails), this);
@@ -239,7 +250,10 @@ public class ChallengesAcceptedFragment extends Fragment implements PayuPaymentR
 
     @Override
     public void paymentResult(boolean isCorrect) {
-        if (true) {
+        Log.d("payment result", "result");
+        mPayuPaymentExecutor.logout();
+        mPayuPaymentExecutor.unregister();
+        if (isCorrect) {
             Log.d("pay", "is correst");
             PaymentChallengeRestBody body = new PaymentChallengeRestBody();
             body.amount = String.valueOf(payUPaymentDetails.getTotalAmount()/100);
@@ -253,6 +267,8 @@ public class ChallengesAcceptedFragment extends Fragment implements PayuPaymentR
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Log.d("response", "accepted");
+                    Toast.makeText(getContext(), "Zapłacono", Toast.LENGTH_LONG).show();
+
                 }
 
                 @Override

@@ -19,8 +19,10 @@ public class HopeItApplication extends Application {
     public static final String PREF_USER_ID_KEY = "hopeItAndroid.USER_ID";
     public static final String PREF_ACCESS_TOKEN_KEY = "hopeItAndroid.ACCESS_TOKEN";
 
-    public static String SERVICE_ENDPOINT = "http://10.99.130.101:4000";
+//    public static String SERVICE_ENDPOINT = "http://10.99.130.101:4000";
+    public static String SERVICE_ENDPOINT = "https://newhop.herokuapp.com/";
     static public HopeRetrofitService retrofitService;
+
     static public LoginResponse loginResponse;
     public static String fbUserId, fbToken;
     public static Challenge challenge;
@@ -28,6 +30,7 @@ public class HopeItApplication extends Application {
     // load image
     public static boolean loadImage = false;
     public static String loadImageId;
+    public static boolean startFromNotification = false;
 
     @Override
     public void onCreate() {

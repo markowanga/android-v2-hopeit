@@ -39,8 +39,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
+
+        try {
+            if (intent.getExtras().keySet().contains("user_challenge_id"))
+                HopeItApplication.startFromNotification = true;
+        } catch (Exception e) {}
 
         final String userId = readUserId();
         String token = readToken();
@@ -50,9 +57,18 @@ public class LoginActivity extends AppCompatActivity {
         if(!token.isEmpty())
             HopeItApplication.fbToken = token;
 
-        final Button loginButton = (Button) findViewById(R.id.login_button);
         progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
+
+        if (!userId.isEmpty() && !token.isEmpty())
+            try {
+            progressBar.setVisibility(View.VISIBLE);
+                login(userId, token);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        final Button loginButton = (Button) findViewById(R.id.login_button);
 
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override

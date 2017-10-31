@@ -12,7 +12,7 @@
         android:gravity="center"
         android:textSize="16dp"
         android:textColor="@android:color/black"
-        android:text="Tutaj możesz wpłacić kwotę na fundację\nProszę podać walutę w PLN" />
+        android:text="@string/payment_fragment_title" />
 
     <EditText
         android:id="@+id/edValue"

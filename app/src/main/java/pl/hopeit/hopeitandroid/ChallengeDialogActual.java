@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.payu.android.sdk.payment.model.Currency;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+
 import okhttp3.ResponseBody;
 import pl.hopeit.hopeitandroid.model.Challenge;
 import pl.hopeit.hopeitandroid.model.PayUPaymentDetails;
@@ -50,15 +52,15 @@ public class ChallengeDialogActual extends DialogFragment {
             final AlertDialog dialog = new AlertDialog.Builder(getActivity())
                     .setTitle(challenge.title)
                     .setView(view)
-                    .setPositiveButton("wpłać 5zł",
+                    .setPositiveButton("wpłać 100zł",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     Log.d("wpłacam", challenge._id);
                                     HopeItApplication.loadImageId = challenge._id;
                                     HopeItApplication.challenge = challenge;
                                     fragment.payUPaymentDetails = new PayUPaymentDetails();
-                                    fragment.payUPaymentDetails.orderId = 543;
-                                    fragment.payUPaymentDetails.totalAmount = 500;
+                                    fragment.payUPaymentDetails.orderId = (int) Calendar.getInstance().getTime().getTime();
+                                    fragment.payUPaymentDetails.totalAmount = 10000;
                                     fragment.payUPaymentDetails.notifyUrl="frewsd";
                                     fragment.payUPaymentDetails.description="vgjhnm";
                                     fragment.payUPaymentDetails.currency = Currency.PLN.toString();
@@ -94,15 +96,15 @@ public class ChallengeDialogActual extends DialogFragment {
             final AlertDialog dialog = new AlertDialog.Builder(getActivity())
                     .setTitle(challenge.title)
                     .setView(view)
-                    .setPositiveButton("wpłać 5zł",
+                    .setPositiveButton("wpłać 100zł",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     Log.d("wpłacam", challenge._id);
                                     HopeItApplication.loadImageId = challenge._id;
                                     HopeItApplication.challenge = challenge;
                                     fragment.payUPaymentDetails = new PayUPaymentDetails();
-                                    fragment.payUPaymentDetails.orderId = 543;
-                                    fragment.payUPaymentDetails.totalAmount = 500;
+                                    fragment.payUPaymentDetails.orderId = (int) Calendar.getInstance().getTime().getTime();
+                                    fragment.payUPaymentDetails.totalAmount = 10000;
                                     fragment.payUPaymentDetails.notifyUrl="frewsd";
                                     fragment.payUPaymentDetails.description="vgjhnm";
                                     fragment.payUPaymentDetails.currency = Currency.PLN.toString();
