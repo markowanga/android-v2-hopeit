@@ -52,22 +52,22 @@ public class ChallengeDialogToAccept extends DialogFragment {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 fragment.removeChallenge(challenge);
                                 Log.d("akcepyuje", challenge._id);
-//                                Call<ResponseBody> call =
-//                                        HopeItApplication.retrofitService.
-//                                                acceptChallenge(HopeItApplication.fbUserId,
-//                                                        challenge._id);
-//
-//                                call.enqueue(new Callback<ResponseBody>() {
-//                                    @Override
-//                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                                        Log.d("response", "accepted");
-//                                    }
-//
-//                                    @Override
-//                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                                        Log.d("response", "fail");
-//                                    }
-//                                });
+                                Call<ResponseBody> call =
+                                        HopeItApplication.retrofitService.
+                                                acceptChallenge(HopeItApplication.fbUserId,
+                                                        challenge._id);
+
+                                call.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        Log.d("response", "accepted");
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                        Log.d("response", "fail");
+                                    }
+                                });
                             }
                         }
                 )
