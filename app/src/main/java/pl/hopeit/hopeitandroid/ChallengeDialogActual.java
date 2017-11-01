@@ -119,6 +119,7 @@ public class ChallengeDialogActual extends DialogFragment {
                     TextView description = view.findViewById(R.id.description_text_view);
                     ImageView picture = view.findViewById(R.id.challenge_image_view);
                     description.setText(challenge.description);
+                    Log.d("image", HopeItApplication.SERVICE_ENDPOINT + challenge.image);
                     Picasso.with(getContext()).load(HopeItApplication.SERVICE_ENDPOINT + challenge.image).into(picture);
 
                 }

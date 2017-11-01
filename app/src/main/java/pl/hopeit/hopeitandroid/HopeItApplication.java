@@ -20,7 +20,7 @@ public class HopeItApplication extends Application {
     public static final String PREF_ACCESS_TOKEN_KEY = "hopeItAndroid.ACCESS_TOKEN";
 
 //    public static String SERVICE_ENDPOINT = "http://10.99.130.101:4000";
-    public static String SERVICE_ENDPOINT = "https://newhop.herokuapp.com/";
+    public static String SERVICE_ENDPOINT = "https://newhop.herokuapp.com";
     static public HopeRetrofitService retrofitService;
 
     static public LoginResponse loginResponse;
